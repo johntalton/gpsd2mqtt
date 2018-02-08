@@ -7,11 +7,11 @@ const mqtt = require('mqtt');
 function tearUp() {
   console.log(' -- tearUp');
   listener.watch();
-  listener.on('TPV', foo => { console.log('TPV'); client.publish('gpsd/tpv', foo); });
+  listener.on('TPV', foo => { console.log('TPV'); client.publish('gpsd/tpv', JSON.stringify(foo)); });
   listener.on('INFO', foo => { console.log('INFO', foo); });
   listener.on('DEVICE', foo => { console.log('DEVICE', foo); });
-  listener.on('DEVICES', foo => { console.log('DEVICES', foo); client.publish('gpsd/devices', foo); });
-  listener.on('SKY', foo => { console.log('SKY', foo); client.publish('gpsd/sky'); });
+  listener.on('DEVICES', foo => { console.log('DEVICES', foo); client.publish('gpsd/devices', JSON.stringify(foo)); });
+  listener.on('SKY', foo => { console.log('SKY', foo); client.publish('gpsd/sky', JSON.stringify(foo)); });
 }
 
 function tearDown() {
