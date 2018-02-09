@@ -38,6 +38,7 @@ function gpsdClearReconnect() {
 }
 
 //const client  = mqtt.connect('mqtt://test.mosquitto.org');
+if(!process.env.mqtturl) { console.log('unspecified mqtt url'); process.exit(-1); }
 const client = mqtt.connect(process.env.mqtturl, { reconnectPeriod: 1000 * 11 });
 
 client.on('connect', () => {
@@ -53,11 +54,12 @@ client.on('offline', () => { console.log('mqtt Offline'); if(listener.isConnecte
 client.on('error', error => { console.log('error', error); });
 
 
-console.log(process.env.gpsdurl);
-if(!process.env.gpsdurl) { console.log('unspecified host'); exit(-1); }
+//console.log(process.env.gpsdurl);
+if(!process.env.gpsdurl) { console.log('unspecified gpsd url'); process.exit(-1); }
 const url = Url.parse(process.env.gpsdurl);
 const hostname = url.hostname ? url.hostname : url.href;
 const port = url.port ? url.port : 2947;
+
 console.log(hostname, port);
 const listener = new Listener({
   hostname: hostname,
